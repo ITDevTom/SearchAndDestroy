@@ -5,7 +5,7 @@ using Verse.AI;
 namespace SearchAndDestroy
 {
     class JobGiver_GoWithinRangeOfHostile : ThinkNode_JobGiver
-	{
+    {
         private bool ignoreNonCombatants;
         private bool humanlikesOnly;
         private int overrideExpiryInterval = -1;
@@ -22,7 +22,7 @@ namespace SearchAndDestroy
         }
 
         protected override Job TryGiveJob(Pawn pawn)
-		{
+        {
             var num = float.MaxValue;
             var targetA = (Thing)null;
             var potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
@@ -54,7 +54,7 @@ namespace SearchAndDestroy
             job.checkOverrideOnExpire = true;
             job.collideWithPawns = true;
             job.expiryInterval = 30;
-			return job;
-		}
+            return job;
+        }
     }
 }
