@@ -48,9 +48,30 @@ namespace SearchAndDestroy
             }
 
             if (targetA == null)
+            {
                 return null;
+            }
 
-            var job = JobMaker.MakeJob(JobDefOf.Goto, (LocalTargetInfo)targetA);
+            IntVec3 destCell = targetA.Position;
+
+            Verb verb = pawn.TryGetAttackVerb(targetA, false);
+            if (verb != null)
+            {
+                CastPositionRequest request = new CastPositionRequest
+                {
+                    caster = pawn,
+                    target = (LocalTargetInfo)targetA,
+                    verb = verb,
+                    maxRangeFromTarget = verb.verbProps.range,
+                    wantCoverFromTarget = true
+                };
+                if (CastPositionFinder.TryFindCastPosition(request, out IntVec3 coverPos))
+                {
+                    destCell = coverPos;
+                }
+            }
+
+            var job = JobMaker.MakeJob(JobDefOf.Goto, destCell);
             job.checkOverrideOnExpire = true;
             job.collideWithPawns = true;
             job.expiryInterval = 30;
